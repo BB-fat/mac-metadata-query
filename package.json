@@ -1,0 +1,53 @@
+{
+  "name": "mac-metadata-query",
+  "version": "0.0.1",
+  "description": "A native module to search file on Mac with NSMetadataQuery.",
+  "homepage": "https://github.com/BB-fat/mac-metadata-query",
+  "bugs": {
+    "url" : "https://github.com/BB-fat/mac-metadata-query/issues",
+    "email" : "bbfat3047@qq.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BB-fat/mac-metadata-query"
+  },
+  "main": "index.js",
+  "keywords": [
+    "electron",
+    "MDQuery",
+    "NSMetadataQuery",
+    "Spotlight",
+    "search file",
+    "mac"
+  ],
+  "author": "BBfat",
+  "license": "MIT",
+  "dependencies": {
+    "node-addon-api": "^4.0.0",
+    "node-gyp-build": "^4.2.3"
+  },
+  "gypfile": true,
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "jest": "^27.0.6",
+    "prebuildify": "^4.2.0"
+  },
+  "os": [
+    "darwin"
+  ],
+  "types": "index.d.ts",
+  "files": [
+    "src",
+    "binding.gyp",
+    "index.js",
+    "index.d.ts",
+    "prebuilds"
+  ],
+  "scripts": {
+    "test": "jest",
+    "install": "node-gyp-build",
+    "prebuildify": "node build.js"
+  }
+}

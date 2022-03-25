@@ -1,1 +1,1 @@
-# node-mdquery
+# mac-metadata-query
