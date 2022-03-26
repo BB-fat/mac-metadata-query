@@ -1,6 +1,6 @@
 {
   "name": "mac-metadata-query",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A native module to search file on Mac with NSMetadataQuery.",
   "homepage": "https://github.com/BB-fat/mac-metadata-query",
   "bugs": {
