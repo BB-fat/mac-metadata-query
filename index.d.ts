@@ -31,8 +31,8 @@ export enum MDQueryScope {
 /**
  * Quick search with MDQuery.
  * @param query The MDQuery expression.
- * @param scopes Search scopes.
- * @param maxResultCount The maximum number of results returned.
+ * @param scopes Search scopes. Default: User's home dir.
+ * @param maxResultCount The maximum number of results returned. Default: 0(No limit)
  */
 export function mdQuery(option: {
     query: string;
