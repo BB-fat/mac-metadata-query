@@ -168,8 +168,10 @@ void MDQuery::Stop(const Napi::CallbackInfo& info) {
 }
 
 void MDQuery::StopQuery() {
-    MDQueryDisableUpdates(_queryRef);
-    MDQueryStop(_queryRef);
+    if (_queryRef) {
+        MDQueryDisableUpdates(_queryRef);
+        MDQueryStop(_queryRef);
+    }
     _stopped = true;
 }
 
@@ -290,17 +292,24 @@ void MDQuery::OnQueryUpdated(CFDictionaryRef updateInfo) {
 #pragma mark -
 
 MDQuery::~MDQuery() {
-    auto localCenter = CFNotificationCenterGetLocalCenter();
-    CFNotificationCenterRemoveObserver(localCenter, this, kMDQueryDidFinishNotification, _queryRef);
-    CFNotificationCenterRemoveObserver(localCenter, this, kMDQueryDidUpdateNotification, _queryRef);
+    if (_queryRef) {
+        auto localCenter = CFNotificationCenterGetLocalCenter();
+        CFNotificationCenterRemoveObserver(localCenter, this, kMDQueryDidFinishNotification, _queryRef);
+        CFNotificationCenterRemoveObserver(localCenter, this, kMDQueryDidUpdateNotification, _queryRef);
+    }
     
     this->StopQuery();
-    CFRelease(_queryRef);
+    if (_queryRef) {
+        CFRelease(_queryRef);
+        _queryRef = NULL;
+    }
     
     if (_queryResultCallback) {
         _queryResultCallback.Release();
+        _queryResultCallback = NULL;
     }
     if (_updateCallback) {
         _updateCallback.Release();
+        _updateCallback = NULL;
     }
 }
