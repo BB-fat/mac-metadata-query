@@ -3,9 +3,52 @@ A better way for electron APPs  searching files on Mac.
 
 ## Usage
 
-You can simply use `mdQuery` function for a quick query.
+It is recommended to use MDQueryRunner. Here is an example of searching by filename.
 
-Here is an example of searching by filename:
+```js
+const { MDQueryRunner, MDQueryScope } = require('mac-metadata-query');
+const runner = new MDQueryRunner();
+const results = await runner.nameLike('test').run();
+```
+
+MDQueryRunner supports chained calls.
+
+```js
+const { MDQueryRunner, MDQueryScope } = require('mac-metadata-query');
+
+const runner = new MDQueryRunner();
+const results = await runner.nameLike('test')
+                            .isDir(false)
+                            .isType('ppt')
+                            .run();
+```
+
+You can combine multiple MDQueryRunners.
+
+```js
+const { MDQueryRunner, MDQueryScope } = require('mac-metadata-query');
+
+const runner1 = new MDQueryRunner().nameLike('test').isDir(false);
+const runner2 = new MDQueryRunner().isType('ppt');
+const results = await runner1.and(runner2).run();
+```
+
+You can listen to a query result update.
+
+```js
+const { MDQueryRunner } = require('mac-metadata-query');
+
+const runner = new MDQueryRunner().nameLike('test').isDir(false).run();
+runner.watch((type, items) => {
+    console.log(`Detect mdquery updates. Type:${type} Items:${JSON.stringify(items)}`);
+});
+```
+
+------
+
+If you have more customized query requirements, you can inherit MDQueryRunner and implement more methods or use the MDQuery object directly.
+
+To operate MDQuery in a lower-level way, you can use the mdQuery function directly.
 
 ```typescript
 import { mdQuery, MDQueryScope, MDQueryItem } from 'mac-metadata-query';
@@ -56,31 +99,9 @@ The MDQuery search scopes is an array of strings, which the elements can be some
 
 **Note that if you pass some directory paths to a search scopes array, the operating system may need to ask user for permissions.**
 
-### Start
+### About Updates
 
-* The query can't be started twice.
-* If a query is already stopped, it can't be started again.
-
-### Watch Updates
-
-You can use the MDQuery object to listen for updates to a specific query. Here is an example.
-
-```typescript
-import { MDQuery, MDQueryResultCountNoLimit, MDQueryScope } from 'mac-metadata-query';
-
-const name = 'test.c';
-const query = new MDQuery(`kMDItemDisplayName == "${name}"`, [MDQueryScope.Home], MDQueryResultCountNoLimit);
-query.start((data) => {
-    console.log(data);
-});
-query.watch((type, item) => {
-    console.log(`On MDQuery update, type: ${type} item:${JSON.stringify(item)}`);
-});
-```
-
-Here are some points:
-
-* You must call `watch` after query starts.
+* You should call `watch` after query starts.
 
 * If the query is stopped, watch updates will also stop.
 
@@ -101,4 +122,5 @@ Here are some points:
 [Query Search Scope Keys](https://developer.apple.com/documentation/coreservices/file_metadata/mdquery/query_search_scope_keys?language=objc)
 
 ## TODO
-* MDQueryRunner for simplify usage.
+* Unit test.
+* Example.

@@ -22,7 +22,7 @@
           'OS=="mac"',
           {
             "sources": [
-                'src/impl_mac.mm'
+                'src/MDQuery.mm'
             ],
             'link_settings': {
               'libraries': [
