@@ -38,7 +38,8 @@ You can listen to a query result update.
 ```js
 const { MDQueryRunner } = require('mac-metadata-query');
 
-const runner = new MDQueryRunner().nameLike('test').isDir(false).run();
+const runner = new MDQueryRunner().nameLike('test').isDir(false);
+runner.run();
 runner.watch((type, items) => {
     console.log(`Detect mdquery updates. Type:${type} Items:${JSON.stringify(items)}`);
 });
